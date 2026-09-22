@@ -40,7 +40,7 @@ PRESETS = {
 PRESET_HELP = {
     "🌲 Ein Baum": "Nur ein Baum (= der volle Baum aus cart-demo): Testfehler 25.6 % - der OOB-Fehler ist mit nur einem Baum schon verfügbar (22.4 %, aus den rund 37 % nie gezogenen Zeilen) und nahe am Testfehler.",
     "🌳 Kleiner Wald": "10 Bäume gemittelt: Testfehler 18.1 % statt 25.6 % beim Einzelbaum - der größte Sprung kommt von den ersten Bäumen.",
-    "🌲🌳 Großer Wald": "100 Bäume: Testfehler 16.1 %, OOB 15.0 % - kaum besser als 30 Bäume (15.0 %). Ab einigen Dutzend Bäumen sättigt der Gewinn; mehr Bäume kosten nur noch Rechenzeit.",
+    "🌲🌳 Großer Wald": "100 Bäume: Testfehler 16.1 %, OOB 15.0 % - kaum besser als 30 Bäume (15.0 %). Ab einigen Dutzend Bäumen sättigt der Gain; mehr Bäume kosten nur noch Rechenzeit.",
     "🎯 Dominantes Merkmal": "Regression, das dominante Merkmal (Distanz) ist zu 80 % durch Rauschen ersetzt: die Korrelation der Bäume fällt von 0.80 (unverändert) auf 0.35, und die Wurzel ist nicht mehr einheitlich (Anteil des häufigsten Wurzelmerkmals 100 % -> 53 %). Der Testfehler steigt dabei auch (Distanz trägt echte Information) - dieser Regler ist zum Beobachten der Korrelation da, nicht empfohlen.",
     "📈 Regression": "Regression mit 30 Bäumen: Testfehler 10.3 min gegen 17.0 min beim Einzelbaum (Raten: 27.2 min) - fast eine Halbierung des Fehlers über dem Mittelwert.",
 }

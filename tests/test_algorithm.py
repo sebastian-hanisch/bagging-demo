@@ -11,7 +11,7 @@ import bag_tree as T
 
 
 def _continuous(n=400, d=5, seed=0, task="class", noise=1.6):
-    """Wie in cart-demo: stetige Merkmale, stark verrauschtes Ziel - keine Gleichstände zwischen Schnitten."""
+    """Wie in cart-demo: stetige Merkmale, stark verrauschtes Ziel - keine Gleichstände zwischen Splits."""
     rng = np.random.default_rng(seed)
     X = rng.normal(size=(n, d))
     signal = X[:, 0] + 0.7 * np.sin(2 * X[:, 1]) + 0.5 * (X[:, 2] > 0.3) * X[:, 3]
@@ -49,8 +49,8 @@ def _naive_oob(bagging, X, y):
 @pytest.mark.parametrize("task,crit,cls", [("class", "gini", DecisionTreeClassifier), ("reg", "variance", DecisionTreeRegressor)])
 def test_most_individual_trees_match_scikit_learn_exactly_on_the_same_bootstrap_rows(task, crit, cls):
     """Eine Bootstrap-Stichprobe zieht mit Zurücklegen: bei n=300 sind im Mittel nur ~63 % der Zeilen einzigartig (siehe unten), der Rest sind exakte Duplikate. Das erhöht die Gleichstandsrate gegenüber frischen,
-    stetigen Daten (cart-demo) deutlich - tief im Baum bleiben oft nur noch wenige, teils doppelte Zeilen übrig, und zwei Merkmale können exakt denselben Gewinn erzielen (unten nachgerechnet). Trotzdem stimmt bei
-    min_samples_leaf 10 die deutliche Mehrheit der Bäume exakt überein; wo nicht, ist der Baum genauso groß und der Gewinn an der abweichenden Stelle exakt gleich (echter Gleichstand, kein Fehler)."""
+    stetigen Daten (cart-demo) deutlich - tief im Baum bleiben oft nur noch wenige, teils doppelte Zeilen übrig, und zwei Merkmale können exakt denselben Gain erzielen (unten nachgerechnet). Trotzdem stimmt bei
+    min_samples_leaf 10 die deutliche Mehrheit der Bäume exakt überein; wo nicht, ist der Baum genauso groß und der Gain an der abweichenden Stelle exakt gleich (echter Gleichstand, kein Fehler)."""
     X, y = _continuous(300, 5, 1, task)
     n_trees, leaf = 20, 10
     bagging = bag.fit(X, y, task, crit, leaf, n_trees, seed=3)
@@ -66,7 +66,7 @@ def test_most_individual_trees_match_scikit_learn_exactly_on_the_same_bootstrap_
 
 
 def test_a_tie_between_individual_trees_and_scikit_learn_is_a_genuine_equal_gain():
-    """Nachweis für den Befund oben: an der ersten Abweichungsstelle erzielen unser Merkmal und das von scikit-learn exakt denselben Gewinn (kein Rundungsfehler, kein Bug)."""
+    """Nachweis für den Befund oben: an der ersten Abweichungsstelle erzielen unser Merkmal und das von scikit-learn exakt denselben Gain (kein Rundungsfehler, kein Bug)."""
     X, y = _continuous(300, 5, 1, "class")
     leaf = 10
     idx = bag.bootstrap_indices(len(y), 3 * 1_000_003 + 1)                                          # bekanntlich eine abweichende Ziehung
