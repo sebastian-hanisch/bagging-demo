@@ -1,5 +1,7 @@
 # Bagging – viele Bäume auf Bootstrap-Stichproben – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-bagging-demo.streamlit.app/)**
+
 Zweites Stück der **Baumbasierten Linie** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", Nachfolger von [CART](../cart-demo):
 anders als die Fall-Demos im Portfolio (ein Anwendungsfall, mehrere Verfahren im Vergleich) zeigt diese Demo **ein** Verfahren – **Bagging**, Breimans Bootstrap-Aggregating (1996) – an einem wachsenden Beispiel.
 Vehikel: dieselben **Lieferungen** wie in cart-demo (acht echte Merkmale, einstellbare Rauschmerkmale, Klassifikation "kommt die Lieferung zu spät?" und Regression "wie lange dauert sie?"). Der Baumkern ist **wortgleich aus cart-demo übernommen** (`bag_tree.py`, dort ausführlich geprüft); dieses Stück fügt Bootstrap, Mittelung und Out-of-Bag hinzu.
