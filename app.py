@@ -24,6 +24,7 @@ from bag_presets import (
     init_session_state_defaults,
     load_permalink_settings,
     randomize_seed,
+    seed_widget,
     sync_query_params,
 )
 from bag_visualization import (
@@ -110,14 +111,15 @@ st.caption("🔗 Die Adresszeile oben spiegelt Ihre aktuelle Konfiguration wider
 
 load_permalink_settings()
 init_session_state_defaults()
-if st.session_state["criterion_select"] not in ("gini", "entropy"):
-    st.session_state["criterion_select"] = "gini"
+if st.session_state.get(KEPT["criterion_select"], "gini") not in ("gini", "entropy"):
+    st.session_state[KEPT["criterion_select"]] = "gini"
 
 with st.sidebar:
     st.header("⚙️ Einstellungen")
     task = st.selectbox("Aufgabe", C.TASKS, key="task_select", format_func=lambda k: C.TASK_LABELS[k],
                         help="Klassifikation: gemittelte Wahrscheinlichkeit, dass die Lieferung zu spät kommt. Regression: gemittelte Dauer in Minuten. Derselbe Baumkern wie in cart-demo, nur das Ziel wechselt.")
     if task == "class":
+        seed_widget("criterion_select")
         crit = st.selectbox("Split-Kriterium", C.CRITERIA["class"], key="criterion_select", format_func=lambda k: C.CRITERION_LABELS[k], help="Wie in cart-demo: Gini und Entropie liegen fast immer beieinander.")
         st.session_state[KEPT["criterion_select"]] = crit
     else:
@@ -135,6 +137,7 @@ with st.sidebar:
     n = st.slider("Lieferungen", *bounds("n_slider"), key="n_slider", step=100, help="Zahl der erzeugten Lieferungen; 70 % zum Lernen, 30 % zum Testen.")
     n_noise = st.slider("Rauschmerkmale", *bounds("n_noise_slider"), key="n_noise_slider", help="Zusätzliche Merkmale ohne Bezug zum Ziel (wie in cart-demo).")
     if task == "class":
+        seed_widget("label_noise_slider")
         label_noise = st.slider("Falsche Etiketten im Training [%]", *bounds("label_noise_slider"), key="label_noise_slider", help="Anteil vertauschter Trainingsetiketten; der Test bleibt sauber (wie in cart-demo).")
         st.session_state[KEPT["label_noise_slider"]] = label_noise
     else:
