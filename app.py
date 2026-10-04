@@ -128,7 +128,7 @@ with st.sidebar:
     leaf = st.slider("Mindestgröße eines Blatts", *bounds("leaf_slider"), key="leaf_slider",
                      help="Wie in cart-demo, gilt für jeden Baum des Walds. 1 = Bäume wachsen voll (klassisches Bagging) - kein Beschneiden, weil kein Einzelbaum für sich gut sein muss.")
     n_trees = st.slider("Zahl der Bäume", *bounds("n_trees_slider"), key="n_trees_slider",
-                        help="Testfehler und Out-of-Bag-Fehler sinken mit mehr Bäumen und sättigen dann: im Standarddatensatz bringt der Sprung von 1 auf 10 Bäume viel (25,6 % → 18,1 % Testfehler), 30 auf 100 kaum noch etwas.")
+                        help="Testfehler und Out-of-Bag-Fehler sinken mit mehr Bäumen und sättigen dann: im Standarddatensatz bringt der Sprung von 1 auf 10 Bäume viel (25,6 % → 18,1 % Testfehler). Von 30 auf 100 ändert sich der Testfehler kaum noch (Mittel über die sechs Datensätze der Experimente: 15,3 → 15,0 %; im Standarddatensatz schwankt er 15,0 → 16,1 %), der OOB-Fehler sinkt noch um rund 1,5 Punkte (17,1 → 15,5 %).")
     st.markdown("**Experiment: Stärke des dominanten Merkmals**")
     dominant = st.slider("Stärke des dominanten Merkmals [%]", *bounds("dominant_slider"), key="dominant_slider",
                          help="100 % = unveränderte Daten. Darunter wird das Merkmal, das in jedem Baum die Wurzel bildet (Ladegewicht bei Klassifikation, Distanz bei Regression), in einem Teil der Zeilen durch eine "
