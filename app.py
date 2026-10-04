@@ -96,7 +96,7 @@ with st.expander("So funktioniert Bagging", expanded=True):
 1. **Bootstrap-Stichprobe:** aus n Trainingszeilen werden n Zeilen **mit Zurücklegen** gezogen - manche Zeilen mehrfach, andere gar nicht. Im Mittel bleiben **1 − 1/e ≈ 63,2 %** der Zeilen mindestens einmal drin; der Rest ("out-of-bag", OOB) fehlt diesem Baum ganz.
 2. **B volle Bäume:** auf jeder Stichprobe wächst ein CART-Baum bis zur gewählten Mindestblattgröße (klassisch bis zum Ende, Blatt = 1) - **ohne** Beschneiden, denn kein Einzelbaum muss für sich gut sein.
 3. **Mitteln:** die Vorhersage ist der Mittelwert der Blattwerte aller B Bäume - bei Klassifikation eine gemittelte Wahrscheinlichkeit, bei Regression der Mittelwert der Zahlen.
-4. **Out-of-Bag:** für jede Trainingszeile gibt es Bäume, die sie nie gesehen haben (im Mittel 63,2 % der Bäume). Ihr Mittel ist eine eingebaute Testschätzung, ganz ohne eigene Testdaten.
+4. **Out-of-Bag:** für jede Trainingszeile gibt es Bäume, die sie nie gesehen haben (im Mittel 36,8 % der Bäume). Ihr Mittel ist eine eingebaute Testschätzung, ganz ohne eigene Testdaten.
 5. **Voraussetzung:** der Gain kommt aus der **Streuung zwischen** den Bäumen. Ein Merkmal, das jeden Baum genauso teilt (weil es viel stärker ist als alle anderen), lässt die Bäume ähnlich bleiben - dann bringt Bagging wenig (Experiment unten, Hook für Random Forest).
         """
     )
@@ -322,6 +322,6 @@ st.markdown("---")
 
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Baumbasierte Verfahren: von CART bis CatBoost](https://sebastianhanisch.net/konzepte-baumbasiert.html)."
 )
