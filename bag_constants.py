@@ -38,7 +38,7 @@ PRESETS = {
     "📈 Regression": dict(task="reg", criterion="variance", leaf=1, n_trees=DEFAULT_N_TREES, n=DEFAULT_N, n_noise=DEFAULT_NOISE, label_noise=0, seed=DEFAULT_SEED, dominant=DEFAULT_DOMINANT, fx=0, fy=3),
 }
 PRESET_HELP = {
-    "🌲 Ein Baum": "Nur ein Baum (= der volle Baum aus cart-demo): Testfehler 25.6 % - der OOB-Fehler ist mit nur einem Baum schon verfügbar (22.4 %, aus den rund 37 % nie gezogenen Zeilen) und nahe am Testfehler.",
+    "🌲 Ein Baum": "Nur ein Baum, gewachsen auf einer Bootstrap-Stichprobe (die rund 63 % der Zeilen sieht; der volle Baum aus cart-demo auf allen Zeilen kommt auf demselben Test auf 16.7 %): Testfehler 25.6 % - der OOB-Fehler ist mit nur einem Baum schon verfügbar (22.4 %, aus den rund 37 % nie gezogenen Zeilen) und nahe am Testfehler.",
     "🌳 Kleiner Wald": "10 Bäume gemittelt: Testfehler 18.1 % statt 25.6 % beim Einzelbaum - der größte Sprung kommt von den ersten Bäumen.",
     "🌲🌳 Großer Wald": "100 Bäume: Testfehler 16.1 %, OOB 15.0 % - der Testfehler ist nicht besser als bei 30 Bäumen (15.0 %, dort OOB 18.0 %). Ab einigen Dutzend Bäumen sättigt der Gain; mehr Bäume kosten nur noch Rechenzeit.",
     "🎯 Dominantes Merkmal": "Regression, das dominante Merkmal (Distanz) ist zu 80 % durch Rauschen ersetzt: die Korrelation der Bäume fällt von 0.80 (unverändert) auf 0.35, und die Wurzel ist nicht mehr einheitlich (Anteil des häufigsten Wurzelmerkmals 100 % -> 53 %). Der Testfehler steigt dabei auch (Distanz trägt echte Information) - dieser Regler ist zum Beobachten der Korrelation da, nicht empfohlen.",

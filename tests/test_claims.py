@@ -10,6 +10,7 @@ import bag_algorithm as bag
 import bag_constants as C
 import bag_evaluation as ev
 import bag_scenario as S
+import bag_tree as T
 
 PRESET = {"one": "🌲 Ein Baum", "small": "🌳 Kleiner Wald", "big": "🌲🌳 Großer Wald", "dom": "🎯 Dominantes Merkmal", "reg": "📈 Regression"}
 
@@ -38,7 +39,10 @@ def test_one_tree_preset():
     assert a.verdict == "stump" and a.n_trees == 1
     assert (a.test["error"], a.single_test["error"]) == pytest.approx((0.2556, 0.2556), abs=0.0005)
     assert a.oob["error"] == pytest.approx(0.2236, abs=0.0005) and a.oob["n"] < len(S.split(a.ds, "class")[1])
-    _help("one", "25.6 %", "22.4 %")
+    Xtr, ytr, Xte, yte = S.split(a.ds, "class")
+    full = T.grow(Xtr, ytr, "class", "gini", None, 1)                                                 # der volle Baum auf allen Zeilen (cart-demo), nicht der Bootstrap-Baum
+    assert np.mean((T.predict_value(full, Xte) > 0.5) != yte) == pytest.approx(0.1667, abs=0.0005)
+    _help("one", "25.6 %", "22.4 %", "16.7 %", "Bootstrap-Stichprobe")
 
 
 def test_small_forest_preset():
