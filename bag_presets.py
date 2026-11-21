@@ -46,7 +46,7 @@ SETTING_SPECS = {
 }
 PRESET_KEYS = {"task": "task_select", "leaf": "leaf_slider", "n_trees": "n_trees_slider", "dominant": "dominant_slider", "n": "n_slider", "n_noise": "n_noise_slider",
                "label_noise": "label_noise_slider", "seed": "seed_input", "fx": "map_x_select", "fy": "map_y_select"}
-# Regler, die je nach Einstellung ausgeblendet sind (Kriterium bei Regression, Etiketten-Rauschen bei Regression): der Wert bleibt hier erhalten
+# Regler, die je nach Einstellung ausgeblendet sind (Kriterium bei Regression, Labels-Rauschen bei Regression): der Wert bleibt hier erhalten
 KEPT = {"criterion_select": "_criterion_kept", "label_noise_slider": "_label_noise_kept"}
 
 

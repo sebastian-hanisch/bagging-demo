@@ -13,7 +13,7 @@ DEFAULT_CRITERION = {"class": "gini", "reg": "variance"}
 
 N_MIN, N_MAX, DEFAULT_N = 400, 3000, 1200
 NOISE_MIN, NOISE_MAX, DEFAULT_NOISE = 0, 8, 3               # Rauschmerkmale (zufällig, ohne Bezug zum Ziel)
-LABEL_NOISE_MIN, LABEL_NOISE_MAX, DEFAULT_LABEL_NOISE = 0, 20, 0     # Prozent falsche Etiketten (nur Klassifikation)
+LABEL_NOISE_MIN, LABEL_NOISE_MAX, DEFAULT_LABEL_NOISE = 0, 20, 0     # Prozent falsche Labels (nur Klassifikation)
 TEST_SHARE = 0.3
 DEFAULT_SEED = 7
 

@@ -94,7 +94,7 @@ with st.expander("So funktioniert Bagging", expanded=True):
     st.markdown(
         """
 1. **Bootstrap-Stichprobe:** aus n Trainingszeilen werden n Zeilen **mit Zurücklegen** gezogen - manche Zeilen mehrfach, andere gar nicht. Im Mittel bleiben **1 − 1/e ≈ 63,2 %** der Zeilen mindestens einmal drin; der Rest ("out-of-bag", OOB) fehlt diesem Baum ganz.
-2. **B volle Bäume:** auf jeder Stichprobe wächst ein CART-Baum bis zur gewählten Mindestblattgröße (klassisch bis zum Ende, Blatt = 1) - **ohne** Beschneiden, denn kein Einzelbaum muss für sich gut sein.
+2. **B volle Bäume:** auf jeder Stichprobe wächst ein CART-Baum bis zur gewählten Mindestblattgröße (klassisch bis zum Ende, Blatt = 1) - **ohne** Pruning, denn kein Einzelbaum muss für sich gut sein.
 3. **Mitteln:** die Vorhersage ist der Mittelwert der Blattwerte aller B Bäume - bei Klassifikation eine gemittelte Wahrscheinlichkeit, bei Regression der Mittelwert der Zahlen.
 4. **Out-of-Bag:** für jede Trainingszeile gibt es Bäume, die sie nie gesehen haben (im Mittel 36,8 % der Bäume). Ihr Mittel ist eine eingebaute Testschätzung, ganz ohne eigene Testdaten.
 5. **Voraussetzung:** der Gain kommt aus der **Streuung zwischen** den Bäumen. Ein Merkmal, das jeden Baum genauso teilt (weil es viel stärker ist als alle anderen), lässt die Bäume ähnlich bleiben - dann bringt Bagging wenig (Experiment unten, Hook für Random Forest).
@@ -126,7 +126,7 @@ with st.sidebar:
         crit = "variance"
         st.caption("Split-Kriterium: Varianz - bei einem Zahlenziel gibt es keine Wahl.")
     leaf = st.slider("Mindestgröße eines Blatts", *bounds("leaf_slider"), key="leaf_slider",
-                     help="Wie in cart-demo, gilt für jeden Baum des Walds. 1 = Bäume wachsen voll (klassisches Bagging) - kein Beschneiden, weil kein Einzelbaum für sich gut sein muss.")
+                     help="Wie in cart-demo, gilt für jeden Baum des Walds. 1 = Bäume wachsen voll (klassisches Bagging) - kein Pruning, weil kein Einzelbaum für sich gut sein muss.")
     n_trees = st.slider("Zahl der Bäume", *bounds("n_trees_slider"), key="n_trees_slider",
                         help="Testfehler und Out-of-Bag-Fehler sinken mit mehr Bäumen und sättigen dann: im Standarddatensatz bringt der Sprung von 1 auf 10 Bäume viel (25,6 % → 18,1 % Testfehler). Von 30 auf 100 ändert sich der Testfehler kaum noch (Mittel über die sechs Datensätze der Experimente: 15,3 → 15,0 %; im Standarddatensatz schwankt er 15,0 → 16,1 %), der OOB-Fehler sinkt noch um rund 1,5 Punkte (17,1 → 15,5 %).")
     st.markdown("**Experiment: Stärke des dominanten Merkmals**")
@@ -138,11 +138,11 @@ with st.sidebar:
     n_noise = st.slider("Rauschmerkmale", *bounds("n_noise_slider"), key="n_noise_slider", help="Zusätzliche Merkmale ohne Bezug zum Ziel (wie in cart-demo).")
     if task == "class":
         seed_widget("label_noise_slider")
-        label_noise = st.slider("Falsche Etiketten im Training [%]", *bounds("label_noise_slider"), key="label_noise_slider", help="Anteil vertauschter Trainingsetiketten; der Test bleibt sauber (wie in cart-demo).")
+        label_noise = st.slider("Falsche Labels im Training [%]", *bounds("label_noise_slider"), key="label_noise_slider", help="Anteil vertauschter Trainings-Labels; der Test bleibt sauber (wie in cart-demo).")
         st.session_state[KEPT["label_noise_slider"]] = label_noise
     else:
         label_noise = int(st.session_state.get(KEPT["label_noise_slider"], C.DEFAULT_LABEL_NOISE))
-        st.caption("Falsche Etiketten gibt es nur bei der Klassifikation.")
+        st.caption("Falsche Labels gibt es nur bei der Klassifikation.")
     seed = st.number_input("Zufalls-Seed", *bounds("seed_input"), key="seed_input", step=1, help="Erzeugt einen anderen Datensatz mit denselben Regeln.")
     st.button("🎲 Neue Daten generieren", width="stretch", on_click=randomize_seed, help="Würfelt einen neuen Zufalls-Seed.")
 
@@ -291,7 +291,7 @@ st.markdown(
 |---|---|---|
 | **Die Bäume unterscheiden sich** | Der Gain kommt aus der Streuung zwischen den Bäumen. Dominiert ein Merkmal jeden Baum (jede Bootstrap-Stichprobe wählt dieselbe Wurzel), bleiben die Bäume stark korreliert - Mitteln hilft weniger (Experiment oben). | Random Forest: zufällige Merkmalsteilmenge je Split |
 | **Bagging senkt die Varianz, nicht den Bias** | Ein Baum, der systematisch danebenliegt (zu wenige Merkmale, zu flach, falsches Kriterium), bleibt im Mittel genauso verzerrt (gemessen oben). | Boosting (nächster Ast der Linie): korrigiert Fehler gezielt |
-| **Volle Bäume, kein Beschneiden** | Kein Einzelbaum muss für sich gut sein - das ist Absicht, nicht vergessen. Ein beschnittener Baum je Stichprobe hätte weniger Varianz zum Wegmitteln und im Mittel selten einen kleineren Testfehler. | - |
+| **Volle Bäume, kein Pruning** | Kein Einzelbaum muss für sich gut sein - das ist Absicht, nicht vergessen. Ein beschnittener Baum je Stichprobe hätte weniger Varianz zum Wegmitteln und im Mittel selten einen kleineren Testfehler. | - |
 | **Mehr Bäume kosten nur noch Rechenzeit** | Ab einigen Dutzend Bäumen sättigt der Testfehler (Messwert oben); mehr Bäume ändern kaum noch etwas, machen die Vorhersage aber teurer. | fixe Baumzahl, früh stoppen |
 | **Wichtigkeit bleibt verzerrt** | Gemittelt über die Bäume ist sie stabiler als beim Einzelbaum, aber weiterhin die Gini-Wichtigkeit - sie bevorzugt Merkmale mit vielen möglichen Schwellen. | Permutationswichtigkeit (Random Forest) |
 """

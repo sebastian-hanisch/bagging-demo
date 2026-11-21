@@ -29,13 +29,13 @@ CART → Bagging (dieses Stück) → Random Forest → Extra Trees
 
 - **Bagging in Aktion:** der Wald wächst Baum für Baum mit Schritt-Regler und Abspielen: links der zuletzt hinzugekommene Einzelbaum (grob, zur Einordnung), rechts das Wald-Mittel über zwei wählbare Merkmale, darunter die Sättigungskurve (Test- und OOB-Fehler gegen die Zahl der Bäume) mit einer Marke beim aktuellen Stand.
 - **Was der Wald gelernt hat:** Bäume, Trainings-, Test- und Out-of-Bag-Fehler, ein Urteil (deutlich besser / kaum besser als der Einzelbaum), Baumkorrelation und Wurzel-Anteile, gemittelte Wichtigkeit der Merkmale.
-- **Regler:** Aufgabe (Klassifikation | Regression), Kriterium (Gini | Entropie; bei Regression fest Varianz), Mindestblattgröße, Zahl der Bäume, **Stärke des dominanten Merkmals** (Experiment-Regler), Lieferungen, Rauschmerkmale, falsche Etiketten, Seed.
+- **Regler:** Aufgabe (Klassifikation | Regression), Kriterium (Gini | Entropie; bei Regression fest Varianz), Mindestblattgröße, Zahl der Bäume, **Stärke des dominanten Merkmals** (Experiment-Regler), Lieferungen, Rauschmerkmale, falsche Labels, Seed.
 - **Experimente auf Knopfdruck:** Bias-Varianz-Zerlegung (Einzelbaum gegen Wald, sechs Datensätze) und Korrelation der Bäume gegen die Stärke des dominanten Merkmals.
 
 ## Modell und Verfahren
 
 - **Bootstrap:** n Zeilen mit Zurücklegen gezogen, deterministisch je Baum (`seed·10⁶ + b`), damit einzelne Bäume reproduzierbar sind.
-- **B volle Bäume:** derselbe CART-Kern wie in cart-demo, ohne Beschneiden (klassisch `min_samples_leaf = 1`, hier auch einstellbar).
+- **B volle Bäume:** derselbe CART-Kern wie in cart-demo, ohne Pruning (klassisch `min_samples_leaf = 1`, hier auch einstellbar).
 - **Mitteln:** Blattwerte über alle Bäume gemittelt; `upto` erlaubt das Mittel der ersten k Bäume (für die Sättigungskurve und die Schrittanimation).
 - **Out-of-Bag:** je Trainingszeile das Mittel nur der Bäume, die sie nicht gesehen haben.
 - **Dominantes Merkmal (Experiment):** das Merkmal, das in jedem Baum die Wurzel bildet, wird in einem Anteil der Zeilen durch eine zufällige Permutation seiner selbst ersetzt (dieselbe Verteilung, kein Bezug mehr zum Ziel) – kein realistischer Datenregler, nur zum Beobachten der Korrelation.
